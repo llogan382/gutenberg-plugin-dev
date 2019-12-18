@@ -42,34 +42,76 @@ registerBlockType('gutenberg-examples/example-01-basic-esnext', {
 		selectField: {
 			type: 'string',
 		},
+		formValue: {
+			type: 'string',
+		},
 	},
 
 	edit({ attributes, setAttributes }) {
-		const { content, checkboxField, radioField, textField, toggleField, selectField } = attributes;
+		const { content, checkboxField, radioField, textField, toggleField, selectField, formValue } = attributes;
 
 		const onChangeContent = (newContent) => {
-			setAttributes({ content: newContent });
+			setAttributes({
+				content: newContent
+			});
 		}
 
+
 		const onChangeCheckboxField = (newValue) => {
-			setAttributes({ checkboxField: newValue });
+			if (newValue === true) {
+				return setAttributes({
+					checkboxField: newValue,
+					formValue: 'checkbox',
+				});
+			}
+			setAttributes({
+				checkboxField: newValue,
+			});
 		}
 
 		const onChangeRadioField = (newValue) => {
+			if (newValue === 'yes') {
+				return setAttributes({
+					radioField: newValue,
+					formValue: 'radio',
+				});
+			}
 			setAttributes({ radioField: newValue });
 		}
 
 		const onChangeTextField = (newValue) => {
+			if (newValue) {
+				return setAttributes({
+					textField: newValue,
+					formValue: 'text',
+				});
+			}
 			setAttributes({ textField: newValue });
 		}
 
 		const onChangeToggleField = (newValue) => {
+			if (newValue === true) {
+				return setAttributes({
+					toggleField: newValue,
+					formValue: 'tel',
+				});
+			}
 			setAttributes({ toggleField: newValue });
 		}
 
 		const onChangeSelectField = (newValue) => {
+			if (newValue === true) {
+				return setAttributes({
+					selectField: newValue,
+					formValue: 'select',
+				});
+			}
 			setAttributes({ selectField: newValue });
 		}
+
+		// const showListType = (newValue) => {
+		// 	setAttributes({ listType: newValue });
+		// }
 
 		return (
 			<>
@@ -78,7 +120,7 @@ registerBlockType('gutenberg-examples/example-01-basic-esnext', {
 					<CheckboxControl
 						heading="Checkbox Field"
 						label="Tick Me"
-						help="Additional help text"
+						help="Check this to display items in a checkbox"
 						checked={checkboxField}
 						onChange={onChangeCheckboxField}
 					/>
@@ -93,6 +135,7 @@ registerBlockType('gutenberg-examples/example-01-basic-esnext', {
 							]
 						}
 						onChange={onChangeRadioField}
+
 					/>
 
 					<TextControl
@@ -124,7 +167,7 @@ registerBlockType('gutenberg-examples/example-01-basic-esnext', {
 				</InspectorControls>
 
 				<RichText
-					key="editable"
+					key="editable" q
 					tagName="p"
 					onChange={onChangeContent}
 					value={content}
@@ -134,24 +177,19 @@ registerBlockType('gutenberg-examples/example-01-basic-esnext', {
 	},
 
 	save({ attributes }) {
-		const { content, checkboxField, radioField, textField, toggleField, selectField } = attributes;
+		const { content, checkboxField, radioField, textField, toggleField, selectField, formValue } = attributes;
 
 		return (
-			<div>
-				<RichText.Content
-					value={content}
-					tagName="p"
+			<form>
+				<input
+					name="formItems"
+					type={formValue}
 				/>
 
-				<h2>Inspector Control Fields</h2>
-				<ul>
-					<li>Checkbox Field: {checkboxField}</li>
-					<li>Radio Field: {radioField}</li>
-					<li>Text Field: {textField}</li>
-					<li>Toggle Field: {toggleField}</li>
-					<li>Select Field: {selectField}</li>
-				</ul>
-			</div>
+				<RichText.Content
+					value={content}
+				/>
+			</form>
 		);
 	},
 });
