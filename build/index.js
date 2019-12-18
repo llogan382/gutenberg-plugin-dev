@@ -97,112 +97,152 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__);
 
-
-
-
-
-Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_2__["registerBlockType"])('gutenberg-examples/example-01-basic-esnext', {
-  title: 'Example: Controls (esnext)',
+var registerBlockType = wp.blocks.registerBlockType;
+var _wp$components = wp.components,
+    CheckboxControl = _wp$components.CheckboxControl,
+    RadioControl = _wp$components.RadioControl,
+    TextControl = _wp$components.TextControl,
+    ToggleControl = _wp$components.ToggleControl,
+    SelectControl = _wp$components.SelectControl;
+var _wp$editor = wp.editor,
+    RichText = _wp$editor.RichText,
+    InspectorControls = _wp$editor.InspectorControls;
+registerBlockType('gutenberg-examples/example-01-basic-esnext', {
+  title: 'Inspector controls example',
   icon: 'universal-access-alt',
   category: 'layout',
   attributes: {
     content: {
-      type: 'array',
-      source: 'children',
+      type: 'string',
+      source: 'html',
       selector: 'p'
     },
-    alignment: {
+    checkboxField: {
+      type: 'boolean',
+      default: true
+    },
+    radioField: {
       type: 'string',
-      default: 'none'
+      default: 'yes'
+    },
+    textField: {
+      type: 'string'
+    },
+    toggleField: {
+      type: 'boolean'
+    },
+    selectField: {
+      type: 'string'
     }
   },
-  example: {
-    attributes: {
-      content: 'Hello World',
-      alignment: 'right'
-    }
-  },
-  edit: function edit(props) {
-    var _props$attributes = props.attributes,
-        content = _props$attributes.content,
-        alignment = _props$attributes.alignment,
-        className = props.className;
+  edit: function edit(_ref) {
+    var attributes = _ref.attributes,
+        setAttributes = _ref.setAttributes;
+    var content = attributes.content,
+        checkboxField = attributes.checkboxField,
+        radioField = attributes.radioField,
+        textField = attributes.textField,
+        toggleField = attributes.toggleField,
+        selectField = attributes.selectField;
 
     var onChangeContent = function onChangeContent(newContent) {
-      props.setAttributes({
+      setAttributes({
         content: newContent
       });
     };
 
-    var onChangeAlignment = function onChangeAlignment(newAlignment) {
-      props.setAttributes({
-        alignment: newAlignment === undefined ? 'none' : newAlignment
+    var onChangeCheckboxField = function onChangeCheckboxField(newValue) {
+      setAttributes({
+        checkboxField: newValue
       });
     };
 
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["BlockControls"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["AlignmentToolbar"], {
-      value: alignment,
-      onChange: onChangeAlignment
-    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["RichText"], {
-      className: className,
-      style: {
-        textAlign: alignment
-      },
+    var onChangeRadioField = function onChangeRadioField(newValue) {
+      setAttributes({
+        radioField: newValue
+      });
+    };
+
+    var onChangeTextField = function onChangeTextField(newValue) {
+      setAttributes({
+        textField: newValue
+      });
+    };
+
+    var onChangeToggleField = function onChangeToggleField(newValue) {
+      setAttributes({
+        toggleField: newValue
+      });
+    };
+
+    var onChangeSelectField = function onChangeSelectField(newValue) {
+      setAttributes({
+        selectField: newValue
+      });
+    };
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(CheckboxControl, {
+      heading: "Checkbox Field",
+      label: "Tick Me",
+      help: "Additional help text",
+      checked: checkboxField,
+      onChange: onChangeCheckboxField
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RadioControl, {
+      label: "Radio Field",
+      selected: radioField,
+      options: [{
+        label: 'Yes',
+        value: 'yes'
+      }, {
+        label: 'No',
+        value: 'no'
+      }],
+      onChange: onChangeRadioField
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(TextControl, {
+      label: "Text Field",
+      help: "Additional help text",
+      value: textField,
+      onChange: onChangeTextField
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(ToggleControl, {
+      label: "Toggle Field",
+      checked: toggleField,
+      onChange: onChangeToggleField
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(SelectControl, {
+      label: "Select Control",
+      value: selectField,
+      options: [{
+        value: 'a',
+        label: 'Option A'
+      }, {
+        value: 'b',
+        label: 'Option B'
+      }, {
+        value: 'c',
+        label: 'Option C'
+      }],
+      onChange: onChangeSelectField
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      key: "editable",
       tagName: "p",
       onChange: onChangeContent,
       value: content
     }));
   },
-  save: function save(props) {
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["RichText"].Content, {
-      className: "gutenberg-examples-align-".concat(props.attributes.alignment),
-      tagName: "p",
-      value: props.attributes.content
-    });
+  save: function save(_ref2) {
+    var attributes = _ref2.attributes;
+    var content = attributes.content,
+        checkboxField = attributes.checkboxField,
+        radioField = attributes.radioField,
+        textField = attributes.textField,
+        toggleField = attributes.toggleField,
+        selectField = attributes.selectField;
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: content,
+      tagName: "p"
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, "Inspector Control Fields"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("ul", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("li", null, "Checkbox Field: ", checkboxField), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("li", null, "Radio Field: ", radioField), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("li", null, "Text Field: ", textField), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("li", null, "Toggle Field: ", toggleField), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("li", null, "Select Field: ", selectField)));
   }
 });
-
-/***/ }),
-
-/***/ "@wordpress/block-editor":
-/*!**********************************************!*\
-  !*** external {"this":["wp","blockEditor"]} ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blockEditor"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/blocks":
-/*!*****************************************!*\
-  !*** external {"this":["wp","blocks"]} ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blocks"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/components":
-/*!*********************************************!*\
-  !*** external {"this":["wp","components"]} ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["components"]; }());
 
 /***/ }),
 
@@ -214,17 +254,6 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_2__["registerBlockType"])('gut
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["element"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/i18n":
-/*!***************************************!*\
-  !*** external {"this":["wp","i18n"]} ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["i18n"]; }());
 
 /***/ })
 
