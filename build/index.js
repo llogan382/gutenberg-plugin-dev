@@ -111,7 +111,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_2__["registerBlockType"])('gutenberg-examples/example-01-basic-esnext', {
-  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Example: Basic (ESNext)', 'gutenberg-examples'),
+  title: 'Example: Controls (esnext)',
   icon: 'universal-access-alt',
   category: 'layout',
   attributes: {
@@ -123,10 +123,6 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_2__["registerBlockType"])('gut
     alignment: {
       type: 'string',
       default: 'none'
-    },
-    backgroundImage: {
-      type: 'string',
-      default: null
     }
   },
   example: {
@@ -139,7 +135,6 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_2__["registerBlockType"])('gut
     var _props$attributes = props.attributes,
         content = _props$attributes.content,
         alignment = _props$attributes.alignment,
-        backgroundImage = _props$attributes.backgroundImage,
         className = props.className;
 
     var onChangeContent = function onChangeContent(newContent) {
@@ -148,44 +143,19 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_2__["registerBlockType"])('gut
       });
     };
 
-    function onSelectImage(newImage) {
-      props.setAttributes({
-        backgroundImage: newImage.sizes.full.url
-      });
-    }
-
     var onChangeAlignment = function onChangeAlignment(newAlignment) {
       props.setAttributes({
         alignment: newAlignment === undefined ? 'none' : newAlignment
       });
     };
 
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      class: "header-image"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["BlockControls"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["AlignmentToolbar"], {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["BlockControls"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["AlignmentToolbar"], {
       value: alignment,
       onChange: onChangeAlignment
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["AlignmentToolbar"], {
-      title: ' Image upload'
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["MediaUpload"], {
-      onSelect: onSelectImage,
-      type: "image",
-      value: backgroundImage,
-      render: function render(_ref) {
-        var open = _ref.open;
-        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["IconButton"], {
-          onClick: open,
-          icon: "upload",
-          className: "editor-media-placeholder__button is-button is-default is-large"
-        }, "Background Image");
-      }
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["RichText"], {
       className: className,
       style: {
-        backgroundImage: "url(".concat(backgroundImage, ")"),
-        backgroundSize: 'auto',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        textAlign: alignment
       },
       tagName: "p",
       onChange: onChangeContent,
@@ -193,29 +163,11 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_2__["registerBlockType"])('gut
     }));
   },
   save: function save(props) {
-    var _props$attributes2 = props.attributes,
-        content = _props$attributes2.content,
-        backgroundImage = _props$attributes2.backgroundImage,
-        className = props.className;
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      class: "header-image" // style={{
-      // 	backgroundImage: `url(${backgroundImage})`,
-      // 	backgroundSize: 'cover',
-      // 	backgroundPosition: 'center',
-      // 	backgroundRepeat: 'no-repeat',
-      // 	height: '100%',
-      // }}
-
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["RichText"].Content, {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["RichText"].Content, {
+      className: "gutenberg-examples-align-".concat(props.attributes.alignment),
       tagName: "p",
-      value: props.attributes.content,
-      style: {
-        backgroundImage: "url(".concat(backgroundImage, ")"),
-        backgroundSize: 'auto',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }
-    }));
+      value: props.attributes.content
+    });
   }
 });
 
