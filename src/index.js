@@ -1,149 +1,195 @@
-
-import { __ } from '@wordpress/i18n';
-import { registerBlockType } from '@wordpress/blocks';
-import { IconButton } from '@wordpress/components';
-import {
+const { registerBlockType } = wp.blocks;
+const {
+	CheckboxControl,
+	RadioControl,
+	TextControl,
+	ToggleControl,
+	SelectControl,
+} = wp.components;
+const {
 	RichText,
-	AlignmentToolbar,
-	BlockControls,
-	MediaUpload,
-} from '@wordpress/block-editor';
-
+	InspectorControls,
+} = wp.editor;
 
 
 registerBlockType('gutenberg-examples/example-01-basic-esnext', {
-	title: __('Example: Basic (ESNext)', 'gutenberg-examples'),
+	title: 'Inspector controls example',
+
 	icon: 'universal-access-alt',
+
 	category: 'layout',
+
 	attributes: {
 		content: {
-			type: 'array',
-			source: 'children',
+			type: 'string',
+			source: 'html',
 			selector: 'p',
 		},
-		alignment: {
-			type: 'string',
-			default: 'none',
+		checkboxField: {
+			type: 'boolean',
+			default: true,
 		},
-
-		backgroundImage: {
+		radioField: {
 			type: 'string',
-			default: null,
-
+			default: 'yes',
+		},
+		textField: {
+			type: 'string',
+		},
+		toggleField: {
+			type: 'boolean',
+		},
+		selectField: {
+			type: 'string',
+		},
+		formValue: {
+			type: 'string',
 		},
 	},
-	example: {
-		attributes: {
-			content: 'Hello World',
-			alignment: 'right',
-		},
-	},
-	edit: (props) => {
-		const {
-			attributes: {
-				content,
-				alignment,
-				backgroundImage,
-			},
-			className,
-		} = props;
+
+	edit({ attributes, setAttributes }) {
+		const { content, checkboxField, radioField, textField, toggleField, selectField, formValue } = attributes;
 
 		const onChangeContent = (newContent) => {
-			props.setAttributes({
+			setAttributes({
 				content: newContent
 			});
-		};
-
-		function onSelectImage(newImage) {
-			props.setAttributes({ backgroundImage: newImage.sizes.full.url });
 		}
 
-		const onChangeAlignment = (newAlignment) => {
-			props.setAttributes({ alignment: newAlignment === undefined ? 'none' : newAlignment });
-		};
+
+		const onChangeCheckboxField = (newValue) => {
+			if (newValue === true) {
+				return setAttributes({
+					checkboxField: newValue,
+					formValue: 'checkbox',
+				});
+			}
+			setAttributes({
+				checkboxField: newValue,
+			});
+		}
+
+		const onChangeRadioField = (newValue) => {
+			if (newValue === 'yes') {
+				return setAttributes({
+					radioField: newValue,
+					formValue: 'radio',
+				});
+			}
+			setAttributes({ radioField: newValue });
+		}
+
+		const onChangeTextField = (newValue) => {
+			if (newValue) {
+				return setAttributes({
+					textField: newValue,
+					formValue: 'text',
+				});
+			}
+			setAttributes({ textField: newValue });
+		}
+
+		const onChangeToggleField = (newValue) => {
+			if (newValue === true) {
+				return setAttributes({
+					toggleField: newValue,
+					formValue: 'tel',
+				});
+			}
+			setAttributes({ toggleField: newValue });
+		}
+
+		const onChangeSelectField = (newValue) => {
+			if (newValue === true) {
+				return setAttributes({
+					selectField: newValue,
+					formValue: 'select',
+				});
+			}
+			setAttributes({ selectField: newValue });
+		}
+
+		// const showListType = (newValue) => {
+		// 	setAttributes({ listType: newValue });
+		// }
 
 		return (
-			<div class="header-image">
+			<>
+				<InspectorControls>
 
-				<BlockControls>
-					<AlignmentToolbar
-						value={alignment}
-						onChange={onChangeAlignment}
-
+					<CheckboxControl
+						heading="Checkbox Field"
+						label="Tick Me"
+						help="Check this to display items in a checkbox"
+						checked={checkboxField}
+						onChange={onChangeCheckboxField}
 					/>
-					<AlignmentToolbar
-						title={' Image upload'}
-					/>
-					<MediaUpload
-						onSelect={onSelectImage}
-						type="image"
-						value={backgroundImage}
-						render={({ open }) => {
-							return (
-								<IconButton
-									onClick={open}
-									icon="upload"
-									className="editor-media-placeholder__button is-button is-default is-large"
-								>
-									Background Image
-								</IconButton>
-							)
 
+					<RadioControl
+						label="Radio Field"
+						selected={radioField}
+						options={
+							[
+								{ label: 'Yes', value: 'yes' },
+								{ label: 'No', value: 'no' },
+							]
 						}
-						}
-					/>
-				</BlockControls>
+						onChange={onChangeRadioField}
 
+					/>
+
+					<TextControl
+						label="Text Field"
+						help="Additional help text"
+						value={textField}
+						onChange={onChangeTextField}
+					/>
+
+					<ToggleControl
+						label="Toggle Field"
+						checked={toggleField}
+						onChange={onChangeToggleField}
+					/>
+
+					<SelectControl
+						label="Select Control"
+						value={selectField}
+						options={
+							[
+								{ value: 'a', label: 'Option A' },
+								{ value: 'b', label: 'Option B' },
+								{ value: 'c', label: 'Option C' },
+							]
+						}
+						onChange={onChangeSelectField}
+					/>
+
+				</InspectorControls>
 
 				<RichText
-					className={className}
-					style={{
-						backgroundImage: `url(${backgroundImage})`,
-						backgroundSize: 'auto',
-						backgroundPosition: 'center',
-						backgroundRepeat: 'no-repeat',
-					}}
+					key="editable" q
 					tagName="p"
 					onChange={onChangeContent}
 					value={content}
-
 				/>
-
-			</div>
+			</>
 		);
 	},
-	save: (props) => {
-		const {
-			attributes: {
-				content,
-				backgroundImage,
-			},
-			className,
-		} = props;
 
+	save({ attributes }) {
+		const { content, checkboxField, radioField, textField, toggleField, selectField, formValue } = attributes;
 
 		return (
-			<div class="header-image"
-			// style={{
-			// 	backgroundImage: `url(${backgroundImage})`,
-			// 	backgroundSize: 'cover',
-			// 	backgroundPosition: 'center',
-			// 	backgroundRepeat: 'no-repeat',
-			// 	height: '100%',
-			// }}
-			>
-				<RichText.Content
-
-					tagName="p"
-					value={props.attributes.content}
-					style={{
-						backgroundImage: `url(${backgroundImage})`,
-						backgroundSize: 'auto',
-						backgroundPosition: 'center',
-						backgroundRepeat: 'no-repeat',
-					}}
+			<form>
+				<input
+					name="formItems"
+					type={formValue}
 				/>
-			</div>
+
+				<RichText.Content
+					value={content}
+				/>
+			</form>
 		);
 	},
 });
